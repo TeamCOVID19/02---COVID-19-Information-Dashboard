@@ -12,29 +12,47 @@
     type: 'line',
     data: {
       labels: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
+        '08-Mar',
+        '09-Mar',
+        '10-Mar',
+        '11-Mar',
+        '12-Mar',
+        '13-Mar',
+        '14-Mar'
       ],
       datasets: [{
+        label: 'First Doses',
         data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
+          215273,
+          217301,
+          243887,
+          260809,
+          369578,
+          512108,
+          257010
         ],
         lineTension: 0,
         backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
+        borderColor: 'red',
+        borderWidth: 5,
+        pointBackgroundColor: 'red'
+      },
+      {
+        label: 'Second Doses',
+        data: [
+          38788,
+          72922,
+          97162,
+          93563,
+          87676,
+          52155,
+          25371
+        ],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: 'blue',
+        borderWidth: 5,
+        pointBackgroundColor: 'blue'
       }]
     },
     options: {
@@ -46,7 +64,7 @@
         }]
       },
       legend: {
-        display: false
+        display: true
       }
     }
   })
