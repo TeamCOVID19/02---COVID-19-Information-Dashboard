@@ -44,3 +44,15 @@ img {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
+
+.Data Button {
+    border-radius: 4px;
+    background-color: white;
+    color: back;
+    padding: 10px 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-delay: all 1s;
+}
+.Data Button:hover {background-color: gray}
