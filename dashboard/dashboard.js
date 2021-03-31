@@ -1,9 +1,20 @@
-/* globals Chart:false, feather:false */
+// /* globals Chart:false, feather:false */
+let covidData = "";
 
-(function () {
+(async function () {
   'use strict'
-
   feather.replace()
+
+  covidData = await getDeaths();
+  let covidDatesArrayFull = covidData.data.map(covidDatesArrayFull => covidDatesArrayFull.date);
+  let covidDatesArrayWeek = covidDatesArrayFull.slice(1, 8).reverse();
+  let covidDeathsArrayFull = covidData.data.map(covidDeathsArrayFull => covidDeathsArrayFull.cumDeathsByDeathDate);
+  let covidDeathsArrayWeek = covidDeathsArrayFull.slice(1, 8).reverse();
+  
+  let labels = covidDatesArrayWeek;
+  let deaths = covidDeathsArrayWeek;
+
+  document.getElementById("test").innerHTML = covidDatesArrayWeek + covidDeathsArrayWeek;
 
   // Graphs
   var ctx = document.getElementById('myChart')
@@ -11,48 +22,15 @@
   var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: [
-        '08-Mar',
-        '09-Mar',
-        '10-Mar',
-        '11-Mar',
-        '12-Mar',
-        '13-Mar',
-        '14-Mar'
-      ],
+      labels: labels, //Label data here
       datasets: [{
-        label: 'First Doses',
-        data: [
-          215273,
-          217301,
-          243887,
-          260809,
-          369578,
-          512108,
-          257010
-        ],
+        label: 'Deaths',
+        data: deaths, //Death data here
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: 'red',
         borderWidth: 5,
         pointBackgroundColor: 'red'
-      },
-      {
-        label: 'Second Doses',
-        data: [
-          38788,
-          72922,
-          97162,
-          93563,
-          87676,
-          52155,
-          25371
-        ],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: 'blue',
-        borderWidth: 5,
-        pointBackgroundColor: 'blue'
       }]
     },
     options: {
@@ -69,3 +47,9 @@
     }
   })
 })()
+
+async function getDeaths() {
+  let url = "https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=nation;areaName=england&structure={%22date%22:%22date%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22newCasesByPublishDate%22:%22newCasesByPublishDate%22,%22cumCasesByPublishDate%22:%22cumCasesByPublishDate%22,%22newDeathsByDeathDate%22:%22newDeathsByDeathDate%22,%22cumDeathsByDeathDate%22:%22cumDeathsByDeathDate%22}";
+  let response = await fetch(url);
+  return await response.json();
+}
