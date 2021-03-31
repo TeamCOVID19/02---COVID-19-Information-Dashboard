@@ -1,18 +1,15 @@
 // /* globals Chart:false, feather:false */
 
-
-
 (async function () {
   'use strict'
   feather.replace()
 
-  let buttonSelected = 0;
   let covidData = await getAPIData();
 
-  drawChart(covidData);
-  document.getElementById("Vaccinations").onclick = function(){buttonSelected = 1; drawChart(covidData, 1);};
-  document.getElementById("Deaths").onclick = function(){buttonSelected = 2; drawChart(covidData, 2);};
-  document.getElementById("Cases").onclick = function(){buttonSelected = 3; drawChart(covidData, 3);};
+  drawChart(covidData, 1);
+  document.getElementById("Vaccinations").onclick = function(){drawChart(covidData, 1);};
+  document.getElementById("Deaths").onclick = function(){drawChart(covidData, 2);};
+  document.getElementById("Cases").onclick = function(){drawChart(covidData, 3);};
 })()
 
 async function getAPIData() {
@@ -28,7 +25,7 @@ function getChartLabels(covidData){
 
 function getChartData(covidData, buttonSelected){
   // Vaccinations
-  if(buttonSelected == 0 || buttonSelected == 1){
+  if(buttonSelected == 1){
     let covidVaccinationsArrayFull = covidData.data.map(covidVaccinationsArrayFull => covidVaccinationsArrayFull.newPeopleVaccinatedFirstDoseByPublishDate);
     return covidVaccinationsArrayFull.slice(1, 31).reverse();
   }
@@ -57,7 +54,7 @@ function drawChart(covidData, buttonSelected){
         data: getChartData(covidData, buttonSelected),
         lineTension: 0,
         backgroundColor: 'transparent',
-        borderColor: 'red',
+        borderColor: 'blue',
         borderWidth: 5,
         pointBackgroundColor: 'red'
       }]
