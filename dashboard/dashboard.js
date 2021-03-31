@@ -23,6 +23,8 @@ function getChartLabels(covidData){
   return covidDatesArrayFull.slice(1, 31).reverse();
 }
 
+
+
 function getChartData(covidData, buttonSelected){
   // Vaccinations
   if(buttonSelected == 1){
@@ -41,9 +43,10 @@ function getChartData(covidData, buttonSelected){
   }
 }
 
+
 function drawChart(covidData, buttonSelected){
   // Graphs
-  var ctx = document.getElementById('myChart')
+  var ctx = document.getElementById('canvas')
   // eslint-disable-next-line no-unused-vars
   var myChart = new Chart(ctx, {
     type: 'line',
@@ -55,11 +58,13 @@ function drawChart(covidData, buttonSelected){
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: 'blue',
-        borderWidth: 5,
+        borderWidth: 1,
         pointBackgroundColor: 'red'
       }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         yAxes: [{
           ticks: {
@@ -69,6 +74,7 @@ function drawChart(covidData, buttonSelected){
       },
       legend: {
         display: true
+        
       }
     }
   })
