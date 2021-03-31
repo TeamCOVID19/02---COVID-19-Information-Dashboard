@@ -14,18 +14,16 @@ let covidData = "";
   let labels = covidDatesArrayWeek;
   let deaths = covidDeathsArrayWeek;
 
-  document.getElementById("test").innerHTML = covidDatesArrayWeek + covidDeathsArrayWeek;
-
   // Graphs
   var ctx = document.getElementById('myChart')
   // eslint-disable-next-line no-unused-vars
   var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels, //Label data here
+      labels: labels,
       datasets: [{
         label: 'Deaths',
-        data: deaths, //Death data here
+        data: deaths,
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: 'red',
