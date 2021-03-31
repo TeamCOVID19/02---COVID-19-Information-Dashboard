@@ -1,29 +1,60 @@
 // /* globals Chart:false, feather:false */
-let covidData = "";
+
+
 
 (async function () {
   'use strict'
   feather.replace()
 
-  covidData = await getDeaths();
-  let covidDatesArrayFull = covidData.data.map(covidDatesArrayFull => covidDatesArrayFull.date);
-  let covidDatesArrayWeek = covidDatesArrayFull.slice(1, 8).reverse();
-  let covidDeathsArrayFull = covidData.data.map(covidDeathsArrayFull => covidDeathsArrayFull.cumDeathsByDeathDate);
-  let covidDeathsArrayWeek = covidDeathsArrayFull.slice(1, 8).reverse();
-  
-  let labels = covidDatesArrayWeek;
-  let deaths = covidDeathsArrayWeek;
+  let buttonSelected = 0;
+  let covidData = await getAPIData();
 
+  drawChart(covidData);
+  document.getElementById("Vaccinations").onclick = function(){buttonSelected = 1; drawChart(covidData, 1);};
+  document.getElementById("Deaths").onclick = function(){buttonSelected = 2; drawChart(covidData, 2);};
+  document.getElementById("Cases").onclick = function(){buttonSelected = 3; drawChart(covidData, 3);};
+})()
+
+async function getAPIData() {
+  let url = "https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=nation;areaName=england&structure={%22date%22:%22date%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22newCasesByPublishDate%22:%22newCasesByPublishDate%22,%22newDeathsByDeathDate%22:%22newDeathsByDeathDate%22,%22newPeopleVaccinatedFirstDoseByPublishDate%22:%22newPeopleVaccinatedFirstDoseByPublishDate%22,%22newPeopleVaccinatedSecondDoseByPublishDate%22:%22newPeopleVaccinatedSecondDoseByPublishDate%22}";
+  let response = await fetch(url);
+  return await response.json();
+}
+
+function getChartLabels(covidData){
+  let covidDatesArrayFull = covidData.data.map(covidDatesArrayFull => covidDatesArrayFull.date);
+  return covidDatesArrayFull.slice(1, 31).reverse();
+}
+
+function getChartData(covidData, buttonSelected){
+  // Vaccinations
+  if(buttonSelected == 0 || buttonSelected == 1){
+    let covidVaccinationsArrayFull = covidData.data.map(covidVaccinationsArrayFull => covidVaccinationsArrayFull.newPeopleVaccinatedFirstDoseByPublishDate);
+    return covidVaccinationsArrayFull.slice(1, 31).reverse();
+  }
+  // Deaths
+  if(buttonSelected == 2){
+    let covidDeathsArrayFull = covidData.data.map(covidDeathsArrayFull => covidDeathsArrayFull.newDeathsByDeathDate);
+    return covidDeathsArrayFull.slice(1, 31).reverse();
+  }
+  // Cases
+  if(buttonSelected == 3){
+    let covidCasesArrayFull = covidData.data.map(covidCasesArrayFull => covidCasesArrayFull.newCasesByPublishDate);
+    return covidCasesArrayFull.slice(1, 31).reverse();
+  }
+}
+
+function drawChart(covidData, buttonSelected){
   // Graphs
   var ctx = document.getElementById('myChart')
   // eslint-disable-next-line no-unused-vars
   var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels,
+      labels: getChartLabels(covidData),
       datasets: [{
-        label: 'Deaths',
-        data: deaths,
+        label: buttonSelected, //'New Deaths (Daily)',
+        data: getChartData(covidData, buttonSelected),
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: 'red',
@@ -44,10 +75,4 @@ let covidData = "";
       }
     }
   })
-})()
-
-async function getDeaths() {
-  let url = "https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=nation;areaName=england&structure={%22date%22:%22date%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22newCasesByPublishDate%22:%22newCasesByPublishDate%22,%22cumCasesByPublishDate%22:%22cumCasesByPublishDate%22,%22newDeathsByDeathDate%22:%22newDeathsByDeathDate%22,%22cumDeathsByDeathDate%22:%22cumDeathsByDeathDate%22}";
-  let response = await fetch(url);
-  return await response.json();
 }
