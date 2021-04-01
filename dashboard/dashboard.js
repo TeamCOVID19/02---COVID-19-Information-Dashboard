@@ -47,7 +47,7 @@ function getChartData(covidData, buttonSelected){
 
 
 function drawChart(covidData, buttonSelected){
-  var ctx = document.getElementById('myChart');
+  var ctx = document.getElementById('canvas');
 
   if(window.myChart != undefined){
     window.myChart.destroy();
