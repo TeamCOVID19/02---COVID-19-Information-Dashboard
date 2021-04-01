@@ -1,15 +1,17 @@
 // /* globals Chart:false, feather:false */
 
+var myChart;
+
 (async function () {
   'use strict'
   feather.replace()
 
   let covidData = await getAPIData();
 
-  drawChart(covidData, 1);
-  document.getElementById("Vaccinations").onclick = function(){drawChart(covidData, 1);};
-  document.getElementById("Deaths").onclick = function(){drawChart(covidData, 2);};
-  document.getElementById("Cases").onclick = function(){drawChart(covidData, 3);};
+  drawChart(covidData, "Vaccinations");
+  document.getElementById("Vaccinations").onclick = function(){drawChart(covidData, "Vaccinations");};
+  document.getElementById("Deaths").onclick = function(){drawChart(covidData, "Deaths");};
+  document.getElementById("Cases").onclick = function(){drawChart(covidData, "Cases");};
 })()
 
 async function getAPIData() {
@@ -20,35 +22,38 @@ async function getAPIData() {
 
 function getChartLabels(covidData){
   let covidDatesArrayFull = covidData.data.map(covidDatesArrayFull => covidDatesArrayFull.date);
-  return covidDatesArrayFull.slice(1, 31).reverse();
+  return covidDatesArrayFull.slice(0, 31).reverse();
 }
 
 
 
 function getChartData(covidData, buttonSelected){
   // Vaccinations
-  if(buttonSelected == 1){
+  if(buttonSelected == "Vaccinations"){
     let covidVaccinationsArrayFull = covidData.data.map(covidVaccinationsArrayFull => covidVaccinationsArrayFull.newPeopleVaccinatedFirstDoseByPublishDate);
-    return covidVaccinationsArrayFull.slice(1, 31).reverse();
+    return covidVaccinationsArrayFull.slice(0, 31).reverse();
   }
   // Deaths
-  if(buttonSelected == 2){
+  if(buttonSelected == "Deaths"){
     let covidDeathsArrayFull = covidData.data.map(covidDeathsArrayFull => covidDeathsArrayFull.newDeathsByDeathDate);
-    return covidDeathsArrayFull.slice(1, 31).reverse();
+    return covidDeathsArrayFull.slice(0, 31).reverse();
   }
   // Cases
-  if(buttonSelected == 3){
+  if(buttonSelected == "Cases"){
     let covidCasesArrayFull = covidData.data.map(covidCasesArrayFull => covidCasesArrayFull.newCasesByPublishDate);
-    return covidCasesArrayFull.slice(1, 31).reverse();
+    return covidCasesArrayFull.slice(0, 31).reverse();
   }
 }
 
 
 function drawChart(covidData, buttonSelected){
-  // Graphs
-  var ctx = document.getElementById('canvas')
+  var ctx = document.getElementById('myChart');
+
+  if(window.myChart != undefined){
+    window.myChart.destroy();
+  }
   // eslint-disable-next-line no-unused-vars
-  var myChart = new Chart(ctx, {
+  window.myChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: getChartLabels(covidData),
@@ -68,7 +73,12 @@ function drawChart(covidData, buttonSelected){
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: false
+            beginAtZero: true
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            maxTicksLimit: 10
           }
         }]
       },
