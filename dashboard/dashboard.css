@@ -57,3 +57,23 @@ img {
 }
 .Data Button:hover {background-color: rgb(170, 165, 165)}
 
+
+
+@media (max-width: 768px) {
+  .Data Button  {
+    padding:8px 16px;
+    font-size:95%;
+    line-height: 2;
+  }
+  
+
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .Data Button {
+    padding:8px 16px;
+    font-size:90%;
+    line-height: 1.2;
+  }
+}
+
