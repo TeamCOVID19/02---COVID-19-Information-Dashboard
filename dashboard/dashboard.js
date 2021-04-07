@@ -44,6 +44,8 @@ function getChartData(covidData, buttonSelected){
 }
 
 
+
+
 function drawChart(covidData, buttonSelected){
   // Graphs
   var ctx = document.getElementById('canvas')
@@ -65,6 +67,7 @@ function drawChart(covidData, buttonSelected){
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      
       scales: {
         yAxes: [{
           ticks: {
@@ -73,7 +76,8 @@ function drawChart(covidData, buttonSelected){
         }]
       },
       legend: {
-        display: true
+        display: true,
+        
         
       }
     }
