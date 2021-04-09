@@ -56,20 +56,15 @@
             
            <div class = "Color Picker">
              <input type="color" id="inputColor">
-             <input type="button" id="colorButton" value="Click to change colour" onclick=changeColor()>
-
-
+             <input type="button" id="colorButton" value="Change Background Colour" onclick=changeColor()>
            </div> 
-
            <div class = "Default Color">
-            <input type="color" id="defaultColor" value="#FFFFFF">
-            <input type="button" id="defaultColorButton" value="Click to change to default colour" onclick=defaultColor()>
-
+            <input type="button" id="defaultColorButton" value="Default Background Colour" onclick=defaultColor()>
            </div>
           
             <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
               <span data-feather="calendar"></span>
-              This month
+              Timescale
             </button>
           </div>
         </div>
@@ -89,21 +84,13 @@
 
     <script>
       function changeColor(){
-
-      
          let color = document.getElementById("inputColor").value;
          document.body.style.backgroundColor = color;
-
       }
-
       function defaultColor(){
-
-        let color = document.getElementById("defaultColor").defaultValue; 
+        let color = "#FFFFFF";
         document.body.style.backgroundColor = color;
-
       }
-
-
     </script>
   </body>
 </html>
