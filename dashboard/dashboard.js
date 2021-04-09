@@ -1,15 +1,13 @@
-// /* globals Chart:false, feather:false */
-
 (async function () {
   'use strict'
   feather.replace()
 
   let covidData = await getAPIData();
 
-  drawChart(covidData, 1);
-  document.getElementById("Vaccinations").onclick = function(){drawChart(covidData, 1);};
-  document.getElementById("Deaths").onclick = function(){drawChart(covidData, 2);};
-  document.getElementById("Cases").onclick = function(){drawChart(covidData, 3);};
+  drawChart(covidData, "Vaccinations");
+  document.getElementById("Vaccinations").onclick = function(){drawChart(covidData, "Vaccinations");};
+  document.getElementById("Deaths").onclick = function(){drawChart(covidData, "Deaths");};
+  document.getElementById("Cases").onclick = function(){drawChart(covidData, "Cases");};
 })()
 
 async function getAPIData() {
@@ -23,62 +21,56 @@ function getChartLabels(covidData){
   return covidDatesArrayFull.slice(1, 31).reverse();
 }
 
-
-
 function getChartData(covidData, buttonSelected){
   // Vaccinations
-  if(buttonSelected == 1){
+  if(buttonSelected == "Vaccinations"){
     let covidVaccinationsArrayFull = covidData.data.map(covidVaccinationsArrayFull => covidVaccinationsArrayFull.newPeopleVaccinatedFirstDoseByPublishDate);
     return covidVaccinationsArrayFull.slice(1, 31).reverse();
   }
   // Deaths
-  if(buttonSelected == 2){
+  if(buttonSelected == "Deaths"){
     let covidDeathsArrayFull = covidData.data.map(covidDeathsArrayFull => covidDeathsArrayFull.newDeathsByDeathDate);
     return covidDeathsArrayFull.slice(1, 31).reverse();
   }
   // Cases
-  if(buttonSelected == 3){
+  if(buttonSelected == "Cases"){
     let covidCasesArrayFull = covidData.data.map(covidCasesArrayFull => covidCasesArrayFull.newCasesByPublishDate);
     return covidCasesArrayFull.slice(1, 31).reverse();
   }
 }
 
-
-
-
 function drawChart(covidData, buttonSelected){
-  // Graphs
-  var ctx = document.getElementById('canvas')
-  // eslint-disable-next-line no-unused-vars
-  var myChart = new Chart(ctx, {
+  let chart = new Chart(document.getElementById('canvas'), {
     type: 'line',
     data: {
       labels: getChartLabels(covidData),
       datasets: [{
-        label: buttonSelected, //'New Deaths (Daily)',
+        label: buttonSelected, //'New Deaths (Daily)'
         data: getChartData(covidData, buttonSelected),
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: 'blue',
         borderWidth: 1,
-        pointBackgroundColor: 'red'
+        pointBackgroundColor: 'blue'
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      
       scales: {
+        xAxes: [{
+          ticks: {
+            maxTicksLimit: 10
+          }
+        }],
         yAxes: [{
           ticks: {
-            beginAtZero: false
+            beginAtZero: true
           }
         }]
       },
       legend: {
-        display: true,
-        
-        
+        display: true
       }
     }
   })
