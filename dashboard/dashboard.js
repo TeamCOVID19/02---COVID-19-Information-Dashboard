@@ -7,7 +7,8 @@ let covidData;
 
   covidData = await getAPIData();
 
-  drawChart(getChartData("Vaccinations"), getChartLabels(), "Vaccinations");
+  drawChart();
+  addVaccineData();
 
   document.getElementById("Vaccinations").onclick = function(){addVaccineData()};
   document.getElementById("Deaths").onclick = function(){addDeathData();};
@@ -15,6 +16,7 @@ let covidData;
 })()
 
 async function getAPIData() {
+  //let url = "https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=overview&structure={%22date%22:%22date%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22newCasesByPublishDate%22:%22newCasesByPublishDate%22,%22newDeathsByDeathDate%22:%22newDeathsByDeathDate%22,%22newPeopleVaccinatedFirstDoseByPublishDate%22:%22newPeopleVaccinatedFirstDoseByPublishDate%22,%22newPeopleVaccinatedSecondDoseByPublishDate%22:%22newPeopleVaccinatedSecondDoseByPublishDate%22}";
   let url = "https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=nation;areaName=england&structure={%22date%22:%22date%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22newCasesByPublishDate%22:%22newCasesByPublishDate%22,%22newDeathsByDeathDate%22:%22newDeathsByDeathDate%22,%22newPeopleVaccinatedFirstDoseByPublishDate%22:%22newPeopleVaccinatedFirstDoseByPublishDate%22,%22newPeopleVaccinatedSecondDoseByPublishDate%22:%22newPeopleVaccinatedSecondDoseByPublishDate%22}";
   let response = await fetch(url);
   return await response.json();
@@ -33,7 +35,7 @@ function addVaccineData(){
     pointBackgroundColor: 'red'
   });
   chart.update();
-  
+
   chart.data.datasets[0].label = "New People Vaccinated By Publish Date (First Dose)"; //Legend Label
   chart.data.datasets[1].label = "New People Vaccinated By Publish Date (Second Dose)"; //Legend Label
   getChartLabels().forEach(label => chart.data.labels.push(label)); //Chart Labels
@@ -62,28 +64,28 @@ function addCaseData(){
 
 function getChartLabels(){
   let covidDatesArrayFull = covidData.data.map(covidDatesArrayFull => covidDatesArrayFull.date);
-  return covidDatesArrayFull.slice(1, 31).reverse();
+  return covidDatesArrayFull.slice(0, 31).reverse();
 }
 
 function getChartData(dataset){
   // Vaccinations
   if(dataset == "First Dose Vaccines"){
     let covidVaccinationsArrayFull = covidData.data.map(covidVaccinationsArrayFull => covidVaccinationsArrayFull.newPeopleVaccinatedFirstDoseByPublishDate);
-    return covidVaccinationsArrayFull.slice(1, 31).reverse();
+    return covidVaccinationsArrayFull.slice(0, 31).reverse();
   }
   if(dataset == "Second Dose Vaccines"){
     let covidVaccinationsArrayFull = covidData.data.map(covidVaccinationsArrayFull => covidVaccinationsArrayFull.newPeopleVaccinatedSecondDoseByPublishDate);
-    return covidVaccinationsArrayFull.slice(1, 31).reverse();
+    return covidVaccinationsArrayFull.slice(0, 31).reverse();
   }
   // Deaths
   if(dataset == "Deaths"){
     let covidDeathsArrayFull = covidData.data.map(covidDeathsArrayFull => covidDeathsArrayFull.newDeathsByDeathDate);
-    return covidDeathsArrayFull.slice(1, 31).reverse();
+    return covidDeathsArrayFull.slice(0, 31).reverse();
   }
   // Cases
   if(dataset == "Cases"){
     let covidCasesArrayFull = covidData.data.map(covidCasesArrayFull => covidCasesArrayFull.newCasesByPublishDate);
-    return covidCasesArrayFull.slice(1, 31).reverse();
+    return covidCasesArrayFull.slice(0, 31).reverse();
   }
 }
 
