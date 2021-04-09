@@ -1,13 +1,17 @@
+let chart;
+let covidData;
+
 (async function () {
   'use strict'
   feather.replace()
 
-  let covidData = await getAPIData();
+  covidData = await getAPIData();
 
-  drawChart(covidData, "Vaccinations");
-  document.getElementById("Vaccinations").onclick = function(){drawChart(covidData, "Vaccinations");};
-  document.getElementById("Deaths").onclick = function(){drawChart(covidData, "Deaths");};
-  document.getElementById("Cases").onclick = function(){drawChart(covidData, "Cases");};
+  drawChart(getChartData("Vaccinations"), getChartLabels(), "Vaccinations");
+
+  document.getElementById("Vaccinations").onclick = function(){addVaccineData()};
+  document.getElementById("Deaths").onclick = function(){addDeathData();};
+  document.getElementById("Cases").onclick = function(){addCaseData();};
 })()
 
 async function getAPIData() {
@@ -16,37 +20,81 @@ async function getAPIData() {
   return await response.json();
 }
 
-function getChartLabels(covidData){
+function addVaccineData(){
+  chart.destroy();
+  drawChart();
+  chart.data.datasets.push({
+    label: null,
+    data: null,
+    lineTension: 0,
+    backgroundColor: 'transparent',
+    borderColor: 'red',
+    borderWidth: 1,
+    pointBackgroundColor: 'red'
+  });
+  chart.update();
+  
+  chart.data.datasets[0].label = "New People Vaccinated By Publish Date (First Dose)"; //Legend Label
+  chart.data.datasets[1].label = "New People Vaccinated By Publish Date (Second Dose)"; //Legend Label
+  getChartLabels().forEach(label => chart.data.labels.push(label)); //Chart Labels
+  getChartData("First Dose Vaccines").forEach(item => chart.data.datasets[0].data.push(item)); //Chart Data
+  getChartData("Second Dose Vaccines").forEach(item => chart.data.datasets[1].data.push(item)); //Chart Data
+  chart.update();
+}
+
+function addDeathData(){
+  chart.destroy();
+  drawChart();
+  chart.data.datasets[0].label = "New Deaths By Death Date"; //Legend Label
+  getChartLabels().forEach(label => chart.data.labels.push(label)); //Chart Labels
+  getChartData("Deaths").forEach(item => chart.data.datasets[0].data.push(item)); //Chart Data
+  chart.update();
+}
+
+function addCaseData(){
+  chart.destroy();
+  drawChart();
+  chart.data.datasets[0].label = "New Cases By Publish Date"; //Legend Label
+  getChartLabels().forEach(label => chart.data.labels.push(label)); //Chart Labels
+  getChartData("Cases").forEach(item => chart.data.datasets[0].data.push(item)); //Chart Data
+  chart.update();
+}
+
+function getChartLabels(){
   let covidDatesArrayFull = covidData.data.map(covidDatesArrayFull => covidDatesArrayFull.date);
   return covidDatesArrayFull.slice(1, 31).reverse();
 }
 
-function getChartData(covidData, buttonSelected){
+function getChartData(dataset){
   // Vaccinations
-  if(buttonSelected == "Vaccinations"){
+  if(dataset == "First Dose Vaccines"){
     let covidVaccinationsArrayFull = covidData.data.map(covidVaccinationsArrayFull => covidVaccinationsArrayFull.newPeopleVaccinatedFirstDoseByPublishDate);
     return covidVaccinationsArrayFull.slice(1, 31).reverse();
   }
+  if(dataset == "Second Dose Vaccines"){
+    let covidVaccinationsArrayFull = covidData.data.map(covidVaccinationsArrayFull => covidVaccinationsArrayFull.newPeopleVaccinatedSecondDoseByPublishDate);
+    return covidVaccinationsArrayFull.slice(1, 31).reverse();
+  }
   // Deaths
-  if(buttonSelected == "Deaths"){
+  if(dataset == "Deaths"){
     let covidDeathsArrayFull = covidData.data.map(covidDeathsArrayFull => covidDeathsArrayFull.newDeathsByDeathDate);
     return covidDeathsArrayFull.slice(1, 31).reverse();
   }
   // Cases
-  if(buttonSelected == "Cases"){
+  if(dataset == "Cases"){
     let covidCasesArrayFull = covidData.data.map(covidCasesArrayFull => covidCasesArrayFull.newCasesByPublishDate);
     return covidCasesArrayFull.slice(1, 31).reverse();
   }
 }
 
-function drawChart(covidData, buttonSelected){
-  let chart = new Chart(document.getElementById('canvas'), {
+function drawChart(){
+  chart = new Chart(document.getElementById('canvas'), {
     type: 'line',
     data: {
-      labels: getChartLabels(covidData),
+      labels: null,
       datasets: [{
-        label: buttonSelected, //'New Deaths (Daily)'
-        data: getChartData(covidData, buttonSelected),
+        label: null,
+        data: null,
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: 'blue',
@@ -73,5 +121,5 @@ function drawChart(covidData, buttonSelected){
         display: true
       }
     }
-  })
+  });
 }
