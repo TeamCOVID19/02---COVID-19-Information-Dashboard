@@ -34,46 +34,30 @@
   </head>
   <body>
 
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">COVID-19 Dashboard</a>
-  <div class="btn-group ">
-    <button type="button" class="btn btn-default navbar-btn" id="Vaccinations" name="Vaccinations">Vaccinations</button>
-    <button type="button" class="btn btn-default navbar-btn" id="Deaths" name="Deaths">Deaths</button>
-    <button type="button" class="btn btn-default navbar-btn" id="Cases" name="Cases">Cases</button>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">COVID-19 Dashboard</a>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default navbar-btn" id="Vaccinations" name="Vaccinations">Vaccinations</button>
+      <button type="button" class="btn btn-default navbar-btn" id="Deaths" name="Deaths">Deaths</button>
+      <button type="button" class="btn btn-default navbar-btn" id="Cases" name="Cases">Cases</button>
+    </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+      <div class="colourPicker">
+        <input type="color" value="#f1f1f1" id="inputColor">
+        <input type="button" id="colorButton" value="Change Background Colour" onclick=changeColor()>
+        <input type="button" id="defaultColorButton" value="Reset" onclick=defaultColor()>
+      </div>
+    </div>
   </div>
-  <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-</header>
+</nav>
 
 <div class="container-fluid">
   <main>
     <div class="row">
-      <div class="col-md-12 ms-sm-auto col-lg-12">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <!-- <div class="btn-group">
-              <button type="button" class="buttonik" id="Vaccinations" name="Vaccinations">Vaccinations</button>
-              <button type="button" class="buttonik" id="Deaths" name="Deaths">Deaths</button>
-              <button type="button" class="buttonik" id="Cases" name="Cases">Cases</button>
-          </div> -->
-            
-          <div class="colourPicker">
-            <input type="color" value="#f1f1f1" id="inputColor">
-            <input type="button" id="colorButton" value="Change Background Colour" onclick=changeColor()>
-            <input type="button" id="defaultColorButton" value="Reset" onclick=defaultColor()>
-          </div>
-        
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            Timescale
-          </button>
-        </div>
-      </div>
-
       <div id="myChart" style="height: 70vh;">
         <canvas class="my-4 w-80 h-80" id="canvas"></canvas>
       </div>
-
     </div>
   </main>
 </div>

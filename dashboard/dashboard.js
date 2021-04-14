@@ -120,7 +120,8 @@ function drawChart(){
         }]
       },
       legend: {
-        display: true
+        display: true,
+        position: 'bottom'
       }
     }
   });
