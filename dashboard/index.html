@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>Dashboard Template · Bootstrap v5.0</title>
+    <title>COVID-19 Dashboard</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
 
@@ -36,7 +36,12 @@
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">COVID-19 Dashboard</a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+  <div class="btn-group ">
+    <button type="button" class="btn btn-default navbar-btn" id="Vaccinations" name="Vaccinations">Vaccinations</button>
+    <button type="button" class="btn btn-default navbar-btn" id="Deaths" name="Deaths">Deaths</button>
+    <button type="button" class="btn btn-default navbar-btn" id="Cases" name="Cases">Cases</button>
+  </div>
+  <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 </header>
@@ -46,11 +51,11 @@
     <div class="row">
       <div class="col-md-12 ms-sm-auto col-lg-12">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <div class = "Data Buttons">
-              <button type="Button" class="buttonik" id="Vaccinations" name="Vaccinations">Vaccinations</button>
-              <button type="Button" class="buttonik" id="Deaths" name="Deaths">Deaths</button>
-              <button type="Button" class="buttonik" id="Cases" name="Cases">Cases</button>
-          </div>
+          <!-- <div class="btn-group">
+              <button type="button" class="buttonik" id="Vaccinations" name="Vaccinations">Vaccinations</button>
+              <button type="button" class="buttonik" id="Deaths" name="Deaths">Deaths</button>
+              <button type="button" class="buttonik" id="Cases" name="Cases">Cases</button>
+          </div> -->
             
           <div class="colourPicker">
             <input type="color" value="#f1f1f1" id="inputColor">

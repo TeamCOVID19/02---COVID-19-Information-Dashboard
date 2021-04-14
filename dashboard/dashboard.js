@@ -110,7 +110,7 @@ function drawChart(){
       scales: {
         xAxes: [{
           ticks: {
-            maxTicksLimit: 10
+            maxTicksLimit: 5
           }
         }],
         yAxes: [{
