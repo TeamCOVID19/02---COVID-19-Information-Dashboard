@@ -36,8 +36,8 @@ function addVaccineData(){
   });
   chart.update();
 
-  chart.data.datasets[0].label = "New People Vaccinated By Publish Date (First Dose)"; //Legend Label
-  chart.data.datasets[1].label = "New People Vaccinated By Publish Date (Second Dose)"; //Legend Label
+  chart.data.datasets[0].label = "New People Vaccinated (First Dose)"; //Legend Label
+  chart.data.datasets[1].label = "New People Vaccinated (Second Dose)"; //Legend Label
   getChartLabels().forEach(label => chart.data.labels.push(label)); //Chart Labels
   getChartData("First Dose Vaccines").forEach(item => chart.data.datasets[0].data.push(item)); //Chart Data
   getChartData("Second Dose Vaccines").forEach(item => chart.data.datasets[1].data.push(item)); //Chart Data
